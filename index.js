@@ -71,6 +71,7 @@ process.on('SIGINT', async () => {
             });
         logger.debug(`Rest API listening on port ${http_port}`);
         logger.debug('Rest API ready');
+        logger.info(`Databases ${config.PREHEATING_DB_URL} / ${config.DB_URL}`);
         logger.info('PdfGenerator ready');
     } catch (exc) {
         logger.error(exc.message);
