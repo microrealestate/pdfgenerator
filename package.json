@@ -13,12 +13,15 @@
     "document",
     "pdf"
   ],
+  "author": "Camel Aissani",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/microrealestate/pdfgenerator/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/microrealestate/pdfgenerator.git"
   },
-  "author": "Camel Aissani",
-  "license": "ISC",
   "dependencies": {
     "ejs": "^2.5.7",
     "express": "^4.16.2",
