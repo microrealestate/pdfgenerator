@@ -13,6 +13,10 @@
     "document",
     "pdf"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/microrealestate/pdfgenerator.git"
+  },
   "author": "Camel Aissani",
   "license": "ISC",
   "dependencies": {
