@@ -1,0 +1,20 @@
+<div class="paymentinfo">
+	<strong>MODALITES DE PAIEMENT</strong>
+	<br> &nbsp;
+	<br><u>Par chèque bancaire ou postal</u>
+	<br>Etablissez votre chèque à l'ordre de la <%= landloard.stakeholder.legalForm+' '+landloard.stakeholder.name %> et à envoyer à l'adresse suivante :
+	<br><%= landloard.stakeholder.address.street1 %>
+    <% if (landloard.stakeholder.address.street2) { %>
+    <br><%= landloard.stakeholder.address.street2 %>
+    <% } %>
+    <br><%= landloard.stakeholder.address.zipCode %> <%= landloard.stakeholder.address.city %>
+	<br> &nbsp;
+­			<br><u>Par virement bancaire</u>
+		<br>Nos coordonnées bancaires
+		<br><%= landloard.bank.name %> IBAN : <%= landloard.bank.IBAN %>
+	<br> &nbsp;
+	<br><u>Par espèce</u>
+	<br>Contactez <%= landloard.contacts[0].firstName %> <%= landloard.contacts[0].lastName %>
+	<br>Par téléphone au <%= landloard.contacts[0].phones[0] %> <%= landloard.contacts[0].phones.length > 1 ? ' ou au '+landloard.contacts[0].phones[1]:'' %>
+	<br>Par E-mail <%= landloard.contacts[0].emails[0] %> <%= landloard.contacts[0].emails.length > 1 ? ' ou au '+landloard.contacts[0].emails[1]:'' %>
+</div>

@@ -1,0 +1,26 @@
+<div class="logo">
+    <img src="<%= logoUrl %>">
+    <% if (landloard.stakeholder.name) { %>
+        <h1><%= landloard.stakeholder.name %></h1>
+    <% } else { %>
+        <h1><%= landloard.stakeholder.firstName %> <%= landloard.stakeholder.lastName %></h1>
+    <% } %>
+    <div >
+        <%= landloard.stakeholder.address.street1 %>
+        <% if (landloard.stakeholder.address.street2) { %>
+            <br><%= landloard.stakeholder.address.street2 %>
+        <% } %>
+        <br><%= landloard.stakeholder.address.zipCode %> <%= landloard.stakeholder.address.city %>
+        <br><%= landloard.stakeholder.address.country %>
+    </div>
+    <% for (contact in landloard.contacts) { %>
+        <div class="contact">
+            <% for (phone in contact.phones) { %>
+                Tél. : <%= phone %><br>
+            <% } %>
+            <% for (email in contact.emails) { %>
+                E-mail : <%= email %><br>
+            <% } %>
+        </div>
+    <% } %>
+</div>

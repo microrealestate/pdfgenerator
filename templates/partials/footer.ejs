@@ -1,0 +1,7 @@
+<div class="footer">
+    <% if (landloard.stakeholder.name) { %>
+        <%= landloard.stakeholder.name+' '+landloard.stakeholder.legalForm+' au capital de '+landloard.stakeholder.capital+' € '+landloard.stakeholder.siret %>
+    <% } else { %>
+        <%= landloard.stakeholder.firstName+' '+ landloard.stakeholder.lastName%>
+    <% } %>
+</div>

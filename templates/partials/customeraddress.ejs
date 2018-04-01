@@ -1,0 +1,17 @@
+<%
+	var stakeholder = tenant.stakeholders[0]
+%>
+<div class="customer">
+	<% if (stakeholder.name) { %>
+		<h3><%= stakeholder.name %></h3>
+		<%= stakeholder.manager.firstName %> <%= stakeholder.manager.lastName %>
+	<% } else { %>
+		<h3><%= stakeholder.firstName %> <%= stakeholder.lastName %></h3>
+	<% } %>
+	<br><%= stakeholder.address.street1 %>
+	<% if (stakeholder.address.street2) { %>
+    	<br><%= stakeholder.address.street2 %>
+    <% } %>
+	<br><%= stakeholder.address.zipCode %> <%= stakeholder.address.city %>
+	<br><%= stakeholder.address.country %>
+</div>
