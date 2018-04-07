@@ -9,7 +9,7 @@ const Contract = require('./model/contract');
 
 const ObjectId = mongoose.Types.ObjectId;
 
-let connection, client, preheating_db;
+let connection, client, base_db;
 
 process.on('SIGINT', async () => {
     exit();
@@ -17,12 +17,12 @@ process.on('SIGINT', async () => {
 
 async function start() {
     await start_db();
-    await start_preheating_db();
+    await start_base_db();
 }
 
 async function exit() {
     await exit_db();
-    await exit_preheating_db();
+    await exit_base_db();
 }
 
 async function start_db() {
@@ -42,22 +42,22 @@ async function exit_db() {
     }
 }
 
-async function start_preheating_db() {
+async function start_base_db() {
     if (!client) {
-        logger.debug(`db connecting to ${config.PREHEATING_DB_URL}...`);
-        const db_url = new URL(config.PREHEATING_DB_URL);
+        logger.debug(`db connecting to ${config.BASE_DB_URL}...`);
+        const db_url = new URL(config.BASE_DB_URL);
         const db_name = db_url.pathname.slice(1);
         let origin = db_url.origin;
         if (origin == 'null') {
             origin = `${db_url.protocol}//${db_url.hostname}${db_url.port?`:${db_url.port}`:''}`;
         }
         client = await MongoClient.connect(origin);
-        preheating_db = await client.db(db_name);
+        base_db = await client.db(db_name);
         logger.debug('db ready');
     }
 }
 
-async function exit_preheating_db() {
+async function exit_base_db() {
     logger.debug('db disconnecting...');
     if (client) {
         await client.close();
@@ -97,7 +97,7 @@ function nameToPerson(name) {
 }
 
 async function getContratLandloard(tenantId) {
-    const occupant = await preheating_db.collection('occupants').findOne({_id: ObjectId(tenantId)});
+    const occupant = await base_db.collection('occupants').findOne({_id: ObjectId(tenantId)});
     if (!occupant) {
         throw new Error(`tenant ${tenantId} not found`);
     }
@@ -166,7 +166,7 @@ async function getContratLandloard(tenantId) {
         contract.terminationDate = moment(occupant.terminationDate, 'DD/MM/YYYY').toDate();
     }
 
-    const realm = await preheating_db.collection('realms').findOne({_id: ObjectId(occupant.realmId)});
+    const realm = await base_db.collection('realms').findOne({_id: ObjectId(occupant.realmId)});
     if (!realm) {
         return {contract, landloard: null};
     }
