@@ -185,8 +185,17 @@ async function getContratLandloard(tenantId) {
         }],
         creationDate: realm.creation
     };
+    landloard.stakeholder = {
+        address: {
+            street1: realm.street1,
+            street2: realm.street2,
+            city: realm.city,
+            zipCode: realm.zipCode,
+            country: realm.country || 'FRANCE'
+        }
+    };
     if (realm.isCompany) {
-        landloard.stakeholder = {
+        Object.assign(landloard.stakeholder, {
             name: realm.company,
             manager: {
                 firstName: nameToPerson(realm.manager).firstName,
@@ -196,19 +205,12 @@ async function getContratLandloard(tenantId) {
             vatNumber: realm.vatNumber,
             capital: realm.capital,
             siret: realm.rcs,
-            address: {
-                street1: realm.street1,
-                street2: realm.street2,
-                city: realm.city,
-                zipCode: realm.zipCode,
-                country: realm.country || 'FRANCE'
-            }
-        };
+        });
     } else {
-        landloard.stakeholder = {
+        Object.assign(landloard.stakeholder, {
             firstName: nameToPerson(realm.renter).firstName,
             lastName: nameToPerson(realm.renter).lastName,
-        };
+        });
     }
     return {contract, landloard};
 }
