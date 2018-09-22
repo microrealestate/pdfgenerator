@@ -12,9 +12,8 @@ WORKDIR /usr/app
 
 COPY . .
 
-RUN npm install -g nodemon --silent && \
-    npm install --silent
+RUN npm install --silent
 
-EXPOSE 8083
+EXPOSE 9227 8083
 
-CMD nodemon --ignore tmp/ --ignore pdf_documents/ --ignore package.json ./index.js
+CMD npm run dev

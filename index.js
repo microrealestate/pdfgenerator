@@ -15,11 +15,13 @@ process.on('SIGINT', async () => {
 
 (async () => {
     // configure default logger
-    logger.remove(logger.transports.Console);
-    logger.add(logger.transports.Console, {
+    logger.add(new logger.transports.Console({
         level: config.LOGGER_LEVEL,
-        colorize: true
-    });
+        format: logger.format.combine(
+            logger.format.simple(),
+            logger.format.colorize()
+        )
+    }));
 
     logger.debug('starting rest API...');
     const app = express();
@@ -28,8 +30,10 @@ process.on('SIGINT', async () => {
     app.use(expressWinston.logger({
         transports: [
             new logger.transports.Console({
-                json: false,
-                colorize: true
+                format: logger.format.combine(
+                    logger.format.simple(),
+                    logger.format.colorize()
+                )
             })
         ],
         meta: false, // optional: control whether you want to log the meta data about the request (default to true)
@@ -44,8 +48,10 @@ process.on('SIGINT', async () => {
     app.use(expressWinston.errorLogger({
         transports: [
             new logger.transports.Console({
-                json: false,
-                colorize: true
+                format: logger.format.combine(
+                    logger.format.simple(),
+                    logger.format.colorize()
+                )
             })
         ]
     }));
