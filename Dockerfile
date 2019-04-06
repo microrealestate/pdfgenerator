@@ -1,4 +1,4 @@
-FROM node:8 AS base
+FROM node:8-stretch AS base
 RUN apt-get update -qq && \
     apt-get upgrade -qqy && \
     apt-get install -qqy \
