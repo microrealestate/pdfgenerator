@@ -68,22 +68,22 @@ async function exit_base_db() {
 async function updateTenant(tenantId) {
     const {contract, landloard} = await getContratLandloard(tenantId);
     if (landloard) {
-        logger.info(`${landloard.stakeholder.name || landloard.stakeholder.lastName } updated in db`);
         await Landloard.findOneAndUpdate(
             {landloardId: landloard.landloardId},
             landloard,
             {upsert:true}
         );
+        logger.info(`${ landloard.stakeholder.name || landloard.stakeholder.lastName } updated in db`);
     }
 
     if (contract) {
-        const stakeholder = contract.tenant.stakeholders[0];
-        logger.info(`${stakeholder.name || stakeholder.lastName } updated in db`);
         await Contract.findOneAndUpdate(
             {contractId: contract.contractId},
             contract,
             {upsert:true}
         );
+        const stakeholder = contract.tenant.stakeholders[0];
+        logger.info(`${ stakeholder.name || stakeholder.lastName } updated in db`);
     }
 }
 
@@ -154,8 +154,9 @@ async function getContratLandloard(tenantId) {
         });
     }
 
+    const landloardId = ObjectId(occupant.realmId);
     const contract = {
-        landloardId: ObjectId(occupant.realmId),
+        landloardId,
         contractId: occupant._id,
         tenant,
         beginDate: moment(occupant.beginDate, 'DD/MM/YYYY').toDate(),
@@ -171,7 +172,7 @@ async function getContratLandloard(tenantId) {
         return {contract, landloard: null};
     }
     const landloard = {
-        landloardId: ObjectId(realm.realmId),
+        landloardId,
         bank: {
             name: realm.bank,
             IBAN: realm.rib,

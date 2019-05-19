@@ -61,7 +61,7 @@ process.on('SIGINT', async () => {
             const pdfFile = await pdf.generate(req.params.document, req.params);
             res.download(pdfFile);
         } catch(exc) {
-            logger.error(exc);
+            logger.error(exc.message ? exc.message : exc);
             res.sendStatus(404);
         }
     });
@@ -78,7 +78,7 @@ process.on('SIGINT', async () => {
         logger.debug(`Rest API listening on port ${http_port}`);
         logger.debug('Rest API ready');
         logger.info(`NODE_ENV ${process.env.NODE_ENV}`);
-        logger.info(`Mode productive ${config.PRODUCTIVE}`);
+        logger.info(`Mode productive ${!!config.PRODUCTIVE}`);
         logger.info(`Databases ${config.BASE_DB_URL} / ${config.DB_URL}`);
         logger.info('PdfGenerator ready');
     } catch (exc) {
