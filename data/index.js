@@ -148,7 +148,7 @@ async function getContratLandloard(tenantId) {
         rents = occupant.rents.map(rent => {
             rent.billingReference = `${moment(rent.term, 'YYYYMMDDHH').format('MM_YY_')}${occupant.reference}`,
             rent.total.payment = rent.total.payment || 0;
-            rent.total.subTotal = rent.total.preTaxAmount + rent.total.charges - rent.total.discount;
+            rent.total.subTotal = rent.total.preTaxAmount + rent.total.charges - rent.total.discount + rent.total.debts;
             rent.total.newBalance = rent.total.grandTotal - rent.total.payment;
             return rent;
         });
