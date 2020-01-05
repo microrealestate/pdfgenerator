@@ -30,7 +30,7 @@
     "file-url": "2.0.2",
     "moment": "2.24.0",
     "mongodb": "3.2.5",
-    "mongoose": "5.5.9",
+    "mongoose": "5.7.5",
     "puppeteer": "1.16.0",
     "winston": "3.2.1"
   },
