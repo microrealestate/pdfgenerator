@@ -45,14 +45,8 @@ async function exit_db() {
 async function start_base_db() {
     if (!client) {
         logger.debug(`db connecting to ${config.BASE_DB_URL}...`);
-        const db_url = new URL(config.BASE_DB_URL);
-        const db_name = db_url.pathname.slice(1);
-        let origin = db_url.origin;
-        if (origin == 'null') {
-            origin = `${db_url.protocol}//${db_url.hostname}${db_url.port?`:${db_url.port}`:''}`;
-        }
-        client = await MongoClient.connect(origin);
-        base_db = await client.db(db_name);
+        client = await MongoClient.connect(config.BASE_DB_URL);
+        base_db = client.db();
         logger.debug('db ready');
     }
 }

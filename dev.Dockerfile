@@ -23,6 +23,4 @@ COPY . .
 
 RUN npm install --silent
 
-EXPOSE 9227 8083
-
 CMD npm run dev

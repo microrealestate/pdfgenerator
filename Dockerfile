@@ -28,5 +28,4 @@ RUN npm install --silent --only production
 FROM base AS release
 RUN npm install forever -g --silent
 COPY --from=dependencies /usr/app .
-EXPOSE 8082
 CMD forever ./index.js
