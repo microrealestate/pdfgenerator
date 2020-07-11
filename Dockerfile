@@ -1,4 +1,4 @@
-FROM node:12-slim AS base
+FROM node:12-slim
 
 RUN apt-get update \
     && apt-get install -y wget gnupg
@@ -18,14 +18,17 @@ ENV CHROME_BIN="google-chrome"
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
 WORKDIR /usr/app
+COPY data data
+COPY lib lib
+COPY templates templates
+COPY index.js .
+COPY package.json .
+COPY package-lock.json .
+COPY LICENSE .
+
 RUN npm set progress=false && \
-    npm config set depth 0
-COPY . .
+    npm config set depth 0 && \
+    npm install forever -g --silent && \
+    npm ci --silent --only production
 
-FROM base as dependencies
-RUN npm install --silent --only production
-
-FROM base AS release
-RUN npm install forever -g --silent
-COPY --from=dependencies /usr/app .
 CMD forever ./index.js
