@@ -201,6 +201,9 @@ span.error {
   border-bottom: 1pt solid #555;
   width: 100%;
 }
+.items tbody {
+  font-size: 9pt;
+}
 .items th {
   border-right: 1pt solid #555;
   border-bottom: 1pt solid #555;
