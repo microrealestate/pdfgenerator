@@ -1,4 +1,5 @@
 const express = require('express');
+const locale = require('locale');
 const expressWinston = require('express-winston');
 const logger = require('winston');
 const pdf = require('./lib/pdf');
@@ -55,6 +56,9 @@ process.on('SIGINT', async () => {
             })
         ]
     }));
+
+    // parse locale
+    app.use(locale(['fr-FR', 'en-US', 'pt-BR'], 'en-US'));
 
     app.get('/pdfgenerator/:document/:id/:term', async (req, res) => {
         try {
