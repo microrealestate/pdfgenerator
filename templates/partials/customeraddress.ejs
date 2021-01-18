@@ -1,17 +1,17 @@
-<%
-	var stakeholder = tenant.stakeholders[0]
-%>
 <div class="customer">
-	<% if (stakeholder.name) { %>
-		<h3><%= stakeholder.name %></h3>
-		<%= stakeholder.manager.firstName %> <%= stakeholder.manager.lastName %>
-	<% } else { %>
-		<h3><%= stakeholder.firstName %> <%= stakeholder.lastName %></h3>
+	<h3><%= tenant.name %></h3>
+	<% if (tenant.isCompany) { %>
+		<%= tenant.companyInfo.legalRepresentative %>
 	<% } %>
-	<br><%= stakeholder.address.street1 %>
-	<% if (stakeholder.address.street2) { %>
-    	<br><%= stakeholder.address.street2 %>
+	<br><%= tenant.addresses[0].street1 %>
+	<% if (tenant.addresses[0].street2) { %>
+    	<br><%= tenant.addresses[0].street2 %>
     <% } %>
-	<br><%= stakeholder.address.zipCode %> <%= stakeholder.address.city %>
-	<br><%= stakeholder.address.country %>
+	<br><%= tenant.addresses[0].zipCode %> <%= tenant.addresses[0].city %>
+	<% if (tenant.addresses[0].state) { %>
+		<br><%= tenant.addresses[0].state %>
+	<% } %>
+	<% if (tenant.addresses[0].country) { %>
+		<br><%= tenant.addresses[0].country %>
+	<% } %>
 </div>

@@ -138,14 +138,21 @@ span.error {
 }
 .limit {
   position: absolute;
-  top: 115mm;
+  top: 110mm;
   left: 10mm;
 }
 .paymentinfo {
   position: absolute;
-  top: 215mm;
+  top: 230mm;
   left: 10mm;
   font-size: 9pt;
+}
+.paymentinfo .columns {
+  display: flex;
+  flex-direction: row;
+}
+.paymentinfo .columns div {
+  width: 50%;
 }
 .footer {
   position: absolute;
@@ -162,7 +169,7 @@ span.error {
 }
 .reference {
   position: absolute;
-  top: 85mm;
+  top: 80mm;
   left: 10mm;
 }
 .reference table {
@@ -185,14 +192,14 @@ span.error {
 }
 .today {
   position: absolute;
-  top: 85mm;
+  top: 80mm;
   left: 105mm;
   font: 10pt "Tahoma";
   text-align: left;
 }
 .items {
   position: absolute;
-  top: 125mm;
+  top: 120mm;
   left: 10mm;
   width: 190mm;
 }

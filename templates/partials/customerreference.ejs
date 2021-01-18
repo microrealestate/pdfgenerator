@@ -2,7 +2,7 @@
     <table>
     	<tr>
             <td class="label">Date d'entrée</td>
-            <td><%= beginDate %></td>
+            <td><%= tenant.contract.beginDate %></td>
         </tr>
         <tr>
             <td class="label">Référence facture</td>
@@ -12,9 +12,11 @@
             <td class="label">Période de location</td>
             <td><%= rent.period %></td>
         </tr>
-        <tr>
-            <td class="label">Numéro de TVA intra.</td>
-            <td><%= landloard.stakeholder.vatNumber %></td>
-        </tr>
+        <% if (landlord.isCompany && landlord.companyInfo.vatNumber) { %>
+            <tr>
+                <td class="label">Numéro de TVA intra.</td>
+                <td><%= landlord.companyInfo.vatNumber %></td>
+            </tr>
+        <% } %>
     </table>
 </div>

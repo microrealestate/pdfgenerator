@@ -1,25 +1,29 @@
 <div class="logo">
     <img src="<%= logoUrl %>">
-    <% if (landloard.stakeholder.name) { %>
-        <h1><%= landloard.stakeholder.name %></h1>
-    <% } else { %>
-        <h1><%= landloard.stakeholder.firstName %> <%= landloard.stakeholder.lastName %></h1>
-    <% } %>
+    <h1><%= landlord.name %></h1>
     <div >
-        <%= landloard.stakeholder.address.street1 %>
-        <% if (landloard.stakeholder.address.street2) { %>
-            <br><%= landloard.stakeholder.address.street2 %>
+        <%= landlord.addresses[0].street1 %>
+        <% if (landlord.addresses[0].street2) { %>
+            <br><%= landlord.addresses[0].street2 %>
         <% } %>
-        <br><%= landloard.stakeholder.address.zipCode %> <%= landloard.stakeholder.address.city %>
-        <br><%= landloard.stakeholder.address.country %>
+        <br><%= landlord.addresses[0].zipCode %> <%= landlord.addresses[0].city %>
+        <% if (landlord.addresses[0].state) { %>
+            <br><%= landlord.addresses[0].state %>
+        <% } %>
+        <% if (landlord.addresses[0].country) { %>
+            <br><%= landlord.addresses[0].country %>
+        <% } %>
     </div>
-    <% for (contact in landloard.contacts) { %>
+    <% for (contact in landlord.contacts) { %>
         <div class="contact">
-            <% for (phone in contact.phones) { %>
-                Tél. : <%= phone %><br>
+            <% if (contact.phone1) { %>
+                Tél. : <%= contact.phone1 %><br>
             <% } %>
-            <% for (email in contact.emails) { %>
-                E-mail : <%= email %><br>
+            <% if (contact.phone2) { %>
+                Tél. : <%= contact.phone2 %><br>
+            <% } %>
+            <% if (contact.email) { %>
+                E-mail : <%= contact.email %><br>
             <% } %>
         </div>
     <% } %>

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev": "nodemon -w lib -w index.js --inspect=0.0.0.0:9227 index.js"
+    "dev": "nodemon -w lib -w data -w templates -w index.js --inspect=0.0.0.0:9227 index.js"
   },
   "keywords": [
     "microrealestate",

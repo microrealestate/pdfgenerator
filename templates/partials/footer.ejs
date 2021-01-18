@@ -1,7 +1,7 @@
 <div class="footer">
-    <% if (landloard.stakeholder.name) { %>
-        <%= landloard.stakeholder.name+' '+landloard.stakeholder.legalForm+' au capital de '+landloard.stakeholder.capital+' € '+landloard.stakeholder.siret %>
+    <% if (landlord.isCompany) { %>
+        <%= landlord.companyInfo.legalStructure+' '+landlord.name+' au capital de '+landlord.companyInfo.capital+' '+landlord.currency+' '+landlord.companyInfo.ein %>
     <% } else { %>
-        <%= landloard.stakeholder.firstName+' '+ landloard.stakeholder.lastName%>
+        <%= landlord.stakeholder.name %>
     <% } %>
 </div>

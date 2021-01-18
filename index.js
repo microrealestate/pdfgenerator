@@ -2,10 +2,11 @@ const express = require('express');
 const locale = require('locale');
 const expressWinston = require('express-winston');
 const logger = require('winston');
+const db = require('./data');
 const pdf = require('./lib/pdf');
 const config = require('./lib/config');
 
-async function exit(code=0) {
+async function exit(code = 0) {
     await pdf.exit();
     process.exit(code);
 }
@@ -64,11 +65,19 @@ process.on('SIGINT', async () => {
         try {
             const pdfFile = await pdf.generate(req.params.document, req.params);
             res.download(pdfFile);
-        } catch(exc) {
+        } catch (exc) {
             logger.error(exc.message ? exc.message : exc);
             res.sendStatus(404);
         }
     });
+
+    // Connect to Mongo
+    try {
+        await db.start();
+    } catch (exc) {
+        logger.error(exc);
+        process.exit(1);
+    }
 
     try {
         await pdf.start();
@@ -83,7 +92,7 @@ process.on('SIGINT', async () => {
         logger.debug('Rest API ready');
         logger.info(`NODE_ENV ${process.env.NODE_ENV}`);
         logger.info(`Mode productive ${!!config.PRODUCTIVE}`);
-        logger.info(`Databases ${config.BASE_DB_URL} / ${config.DB_URL}`);
+        logger.info(`Databases ${config.MONGO_URL}`);
         logger.info('PdfGenerator ready');
     } catch (exc) {
         logger.error(exc.message);
