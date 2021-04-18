@@ -87,7 +87,7 @@ async function getRentsData(params) {
         rents
     };
     if (dbTenant.terminationDate) {
-        tenant.contact.terminationDate = moment(dbTenant.terminationDate, 'DD/MM/YYYY').locale(locale).format('LL');
+        tenant.contract.terminationDate = moment(dbTenant.terminationDate, 'DD/MM/YYYY').locale(locale).format('LL');
     }
 
     return {
