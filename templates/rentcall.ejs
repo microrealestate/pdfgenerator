@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
-	<%- include partials/htmlhead.ejs %>
+	<%- include('partials/htmlhead.ejs') %>
 	<body>
 		<% tenant.rents.forEach(function(rent) { %>
 			<div class="page">
-				<%- include partials/header.ejs %>
+				<%- include('partials/header.ejs') %>
 
-				<%- include partials/customeraddress.ejs %>
+				<%- include('partials/customeraddress.ejs') %>
 
-				<%- include('partials/customerreference.ejs', {tenant, landlord, rent}) %>
+				<%- include('partials/customerreference.ejs', { rent: rent }) %>
 
-				<%- include partials/placeanddate.ejs %>
+				<%- include('partials/placeanddate.ejs') %>
 
 				<div class="title">Avis d'échéance</div>
 
@@ -21,16 +21,16 @@
 				<div class="items">
 					<table>
 
-					<%- include partials/invoicebody %>
+					<%- include('partials/invoicebody.ejs', { rent: rent }) %>
 
-					<%- include partials/rentcalltotal %>
+					<%- include('partials/rentcalltotal.ejs', { rent: rent }) %>
 
 					</table>
 				</div>
 
-				<%- include partials/paymentmodalities %>
+				<%- include('partials/paymentmodalities.ejs') %>
 
-				<%- include partials/footer %>
+				<%- include('partials/footer.ejs') %>
 			</div>
 		<% }); %>
 	</body>
