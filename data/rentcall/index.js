@@ -2,7 +2,7 @@ const moment = require('moment');
 const path = require('path');
 const fileUrl = require('file-url');
 const db = require('../');
-const config = require('../../lib/config');
+const config = require('../../src/config');
 
 const template_dir = config.TEMPLATES_DIRECTORY;
 

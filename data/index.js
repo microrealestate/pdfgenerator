@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const logger = require('winston');
 const moment = require('moment');
-const config = require('../lib/config');
+const config = require('../src/config');
 
 const Tenant = require('./model/tenant');
 let connection;

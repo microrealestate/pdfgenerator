@@ -19,7 +19,7 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
 WORKDIR /usr/app
 COPY data data
-COPY lib lib
+COPY src src
 COPY templates templates
 COPY index.js .
 COPY package.json .
