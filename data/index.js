@@ -3,7 +3,7 @@ const logger = require('winston');
 const moment = require('moment');
 const config = require('../src/config');
 
-const Tenant = require('./model/tenant');
+const Tenant = require('../src/model/tenant');
 let connection;
 
 process.on('SIGINT', async () => {

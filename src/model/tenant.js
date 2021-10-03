@@ -1,12 +1,11 @@
 const mongoose = require('mongoose');
-const Realm = require('./realm');
-const Property = require('./property');
+require('./property');
 
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const TenantSchema = mongoose.Schema({
   // Organization
-  realmId: { type: ObjectId, ref: Realm },
+  realmId: { type: String, ref: 'Realm' },
 
   // individual details
   name: String,
@@ -41,7 +40,7 @@ const TenantSchema = mongoose.Schema({
   terminationDate: String,
   properties: [
     {
-      propertyId: { type: ObjectId, ref: Property },
+      propertyId: { type: ObjectId, ref: 'Property' },
       entryDate: String,
       exitDate: String,
     },

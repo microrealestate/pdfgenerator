@@ -14,4 +14,6 @@ module.exports = {
     process.env.TEMPORARY_DIRECTORY || path.join(root_dir, '/tmp'),
   PDF_DIRECTORY:
     process.env.PDF_DIRECTORY || path.join(root_dir, '/pdf_documents'),
+  CIPHER_KEY: process.env.CIPHER_KEY || 'cipher_key_secret',
+  CIPHER_IV_KEY: process.env.CIPHER_IV_KEY || 'cipher_iv_key_secret',
 };

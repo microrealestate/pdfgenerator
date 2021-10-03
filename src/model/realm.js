@@ -42,6 +42,18 @@ const RealmSchema = mongoose.Schema({
     dos: String,
     vatNumber: String,
   },
+  thirdParties: {
+    mailgun: {
+      apiKey: String,
+      domain: String,
+      fromEmail: String,
+      replyToEmail: String,
+    },
+    b2: {
+      applicationKeyId: String,
+      applicationKey: String,
+    },
+  },
   locale: String,
   currency: String,
 });

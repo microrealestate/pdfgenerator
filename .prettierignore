@@ -1,1 +1,5 @@
+.github
+coverage
+tmp
 *.min.css
+*.md

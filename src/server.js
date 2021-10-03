@@ -1,15 +1,19 @@
 const express = require('express');
 const locale = require('locale');
-const bodyParser = require('body-parser');
 const expressWinston = require('express-winston');
 const logger = require('winston');
 const db = require('../data');
 const pdf = require('./pdf');
 const config = require('./config');
-const apiRouter = require('./apirouter');
+const deprecatedRoutes = require('./routes/deprecatedroutes');
+const routes = require('./routes');
 
 async function exit(code = 0) {
-  await pdf.exit();
+  try {
+    await pdf.exit();
+  } catch (err) {
+    // continue regardless of error
+  }
   process.exit(code);
 }
 
@@ -70,21 +74,18 @@ async function start() {
   app.use(locale(['fr-FR', 'en-US', 'pt-BR'], 'en-US'));
 
   // body parser
-  app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(bodyParser.json());
+  app.use(express.urlencoded({ extended: true }));
+  app.use(express.json());
 
   // api
-  app.use('/pdfgenerator', apiRouter);
+  app.use('/pdfgenerator', deprecatedRoutes);
+  app.use('/pdfgenerator', routes);
 
-  // Connect to Mongo
   try {
+    // Connect to Mongo
     await db.start();
-  } catch (exc) {
-    logger.error(exc);
-    process.exit(1);
-  }
 
-  try {
+    // Start pdf engine
     await pdf.start();
 
     // Run server
