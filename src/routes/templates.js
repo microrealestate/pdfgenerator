@@ -23,7 +23,7 @@ const _checkTemplateParameters = ({ name, type, contents, html }) => {
 
 const templatesApi = express.Router();
 
-templatesApi.get('/fields', async (req, res) => {
+templatesApi.get('/fields', (req, res) => {
   res.status(200).json([
     {
       _id: 'current_location',
@@ -283,93 +283,62 @@ templatesApi.get('/fields', async (req, res) => {
   ]);
 });
 
-templatesApi.get('/', async (req, res) => {
-  const organizationId = req.headers.organizationid;
+templatesApi.get('/', (req, res) => {
+  const request = async () => {
+    const organizationId = req.headers.organizationid;
 
-  const templatesFound = await Template.find({
-    realmId: organizationId,
-  });
-  if (!templatesFound) {
-    return res.sendStatus(404);
-  }
-
-  res.status(200).json(templatesFound);
-});
-
-templatesApi.get('/:id', async (req, res) => {
-  const templateId = req.params.id;
-
-  if (!templateId) {
-    return res.sendStatus(422);
-  }
-
-  let templateFound = await Template.findOne({
-    _id: templateId,
-    realmId: req.realm._id,
-  });
-
-  if (!templateFound) {
-    return res.sendStatus(404);
-  }
-
-  res.status(200).json(templateFound);
-});
-
-templatesApi.post('/', async (req, res) => {
-  const organizationId = req.headers.organizationid;
-
-  const errors = _checkTemplateParameters(req.body);
-  if (errors.length) {
-    return res.status(422).json({ errors });
-  }
-
-  const {
-    name,
-    type,
-    description = '',
-    contents,
-    html,
-    linkedResourceIds,
-  } = req.body || {};
-  const createdTemplate = await Template.create({
-    realmId: organizationId,
-    name,
-    type,
-    description,
-    contents,
-    html,
-    linkedResourceIds,
-  });
-
-  res.status(201).json(createdTemplate);
-});
-
-templatesApi.put('/', async (req, res) => {
-  const organizationId = req.headers.organizationid;
-
-  let errors = _checkTemplateParameters(req.body);
-  if (!req.body._id) {
-    errors = ['template id is missing', ...errors];
-  }
-  if (errors.length) {
-    return res.status(422).json({ errors });
-  }
-
-  const {
-    _id,
-    name,
-    type,
-    description = '',
-    contents,
-    html,
-    linkedResourceIds,
-  } = req.body || {};
-  const updatedTemplate = await Template.findOneAndReplace(
-    {
-      _id,
+    const templatesFound = await Template.find({
       realmId: organizationId,
-    },
-    {
+    });
+    if (!templatesFound) {
+      return res.sendStatus(404);
+    }
+
+    res.status(200).json(templatesFound);
+  };
+  request();
+});
+
+templatesApi.get('/:id', (req, res) => {
+  const request = async () => {
+    const templateId = req.params.id;
+
+    if (!templateId) {
+      return res.sendStatus(422);
+    }
+
+    let templateFound = await Template.findOne({
+      _id: templateId,
+      realmId: req.realm._id,
+    });
+
+    if (!templateFound) {
+      return res.sendStatus(404);
+    }
+
+    res.status(200).json(templateFound);
+  };
+  request();
+});
+
+templatesApi.post('/', (req, res) => {
+  const request = async () => {
+    const organizationId = req.headers.organizationid;
+
+    const errors = _checkTemplateParameters(req.body);
+    if (errors.length) {
+      return res.status(422).json({ errors });
+    }
+
+    const {
+      name,
+      type,
+      description = '',
+      contents,
+      html,
+      linkedResourceIds,
+    } = req.body || {};
+    const createdTemplate = await Template.create({
       realmId: organizationId,
       name,
       type,
@@ -377,30 +346,76 @@ templatesApi.put('/', async (req, res) => {
       contents,
       html,
       linkedResourceIds,
-    },
-    { new: true }
-  );
+    });
 
-  if (!updatedTemplate) {
-    return res.sendStatus(404);
-  }
-
-  res.status(201).json(updatedTemplate);
+    res.status(201).json(createdTemplate);
+  };
+  request();
 });
 
-templatesApi.delete('/:ids', async (req, res) => {
-  const organizationId = req.headers.organizationid;
-  const templateIds = req.params.ids.split(',');
-  const result = await Template.deleteMany({
-    _id: { $in: templateIds },
-    realmId: organizationId,
-  });
+templatesApi.put('/', (req, res) => {
+  const request = async () => {
+    const organizationId = req.headers.organizationid;
 
-  if (result.ok !== 1) {
-    return res.sendStatus(404);
-  }
+    let errors = _checkTemplateParameters(req.body);
+    if (!req.body._id) {
+      errors = ['template id is missing', ...errors];
+    }
+    if (errors.length) {
+      return res.status(422).json({ errors });
+    }
 
-  res.sendStatus(204);
+    const {
+      _id,
+      name,
+      type,
+      description = '',
+      contents,
+      html,
+      linkedResourceIds,
+    } = req.body || {};
+    const updatedTemplate = await Template.findOneAndReplace(
+      {
+        _id,
+        realmId: organizationId,
+      },
+      {
+        realmId: organizationId,
+        name,
+        type,
+        description,
+        contents,
+        html,
+        linkedResourceIds,
+      },
+      { new: true }
+    );
+
+    if (!updatedTemplate) {
+      return res.sendStatus(404);
+    }
+
+    res.status(201).json(updatedTemplate);
+  };
+  request();
+});
+
+templatesApi.delete('/:ids', (req, res) => {
+  const request = async () => {
+    const organizationId = req.headers.organizationid;
+    const templateIds = req.params.ids.split(',');
+    const result = await Template.deleteMany({
+      _id: { $in: templateIds },
+      realmId: organizationId,
+    });
+
+    if (result.ok !== 1) {
+      return res.sendStatus(404);
+    }
+
+    res.sendStatus(204);
+  };
+  request();
 });
 
 module.exports = templatesApi;

@@ -7,6 +7,7 @@ module.exports = {
   PRODUCTIVE: process.env.NODE_ENV === 'production',
   PORT: process.env.PORT || 8082,
   MONGO_URL: process.env.MONGO_URL || 'mongodb://localhost/sampledb',
+  ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET || 'access_token_secret',
   DATA_DIRECTORY: process.env.PDF_DIRECTORY || path.join(root_dir, '/data'),
   TEMPLATES_DIRECTORY:
     process.env.TEMPLATES_DIRECTORY || path.join(root_dir, '/templates'),
