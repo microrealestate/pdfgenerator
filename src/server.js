@@ -5,7 +5,6 @@ const logger = require('winston');
 const db = require('../data');
 const pdf = require('./pdf');
 const config = require('./config');
-const deprecatedRoutes = require('./routes/deprecatedroutes');
 const routes = require('./routes');
 
 async function exit(code = 0) {
@@ -78,7 +77,6 @@ async function start() {
   app.use(express.json());
 
   // api
-  app.use('/pdfgenerator', deprecatedRoutes);
   app.use('/pdfgenerator', routes);
 
   try {

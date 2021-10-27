@@ -5,6 +5,8 @@ const Document = require('../model/document');
 const Template = require('../model/template');
 const Tenant = require('../model/tenant');
 const Lease = require('../model/lease');
+const logger = require('winston');
+const pdf = require('../pdf');
 
 async function _getTempate(organization, templateId) {
   const template = (
@@ -119,6 +121,16 @@ async function _getTemplateValues(organization, tenantId, leaseId) {
  * route: /documents
  */
 const documentsApi = express.Router();
+
+documentsApi.get('/:document/:id/:term', async (req, res) => {
+  try {
+    const pdfFile = await pdf.generate(req.params.document, req.params);
+    res.download(pdfFile);
+  } catch (exc) {
+    logger.error(exc.message ? exc.message : exc);
+    res.sendStatus(404);
+  }
+});
 
 documentsApi.get('/', async (req, res) => {
   const organizationId = req.headers.organizationid;
