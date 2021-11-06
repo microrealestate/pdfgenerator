@@ -126,8 +126,8 @@ documentsApi.get('/:document/:id/:term', async (req, res) => {
   try {
     const pdfFile = await pdf.generate(req.params.document, req.params);
     res.download(pdfFile);
-  } catch (exc) {
-    logger.error(exc.message ? exc.message : exc);
+  } catch (error) {
+    logger.error(error);
     res.sendStatus(404);
   }
 });
