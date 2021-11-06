@@ -4,12 +4,12 @@ const logger = require('winston');
 const needAccessToken = (accessTokenSecret) => {
   return (req, res, next) => {
     if (!req.headers.authorization) {
-      return res.sendStatus(403);
+      return res.sendStatus(401);
     }
 
     const accessToken = req.headers.authorization.split(' ')[1];
     if (!accessToken) {
-      return res.sendStatus(403);
+      return res.sendStatus(401);
     }
 
     try {
@@ -17,7 +17,7 @@ const needAccessToken = (accessTokenSecret) => {
       req.user = decoded.account;
     } catch (err) {
       logger.warn(err);
-      return res.sendStatus(403);
+      return res.sendStatus(401);
     }
 
     next();

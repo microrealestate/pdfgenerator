@@ -10,7 +10,7 @@ routes.use(needAccessToken(config.ACCESS_TOKEN_SECRET));
 routes.use(async (req, res, next) => {
   const organizationId = req.headers.organizationid;
   if (!organizationId) {
-    return res.sendStatus(403);
+    return res.sendStatus(404);
   }
 
   req.realm = (await Realm.findOne({ _id: organizationId }))?.toObject();
