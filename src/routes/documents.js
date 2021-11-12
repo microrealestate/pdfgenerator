@@ -124,6 +124,7 @@ const documentsApi = express.Router();
 
 documentsApi.get('/:document/:id/:term', async (req, res) => {
   try {
+    logger.debug(`generate pdf file for ${JSON.stringify(req.params)}`);
     const pdfFile = await pdf.generate(req.params.document, req.params);
     res.download(pdfFile);
   } catch (error) {
@@ -158,6 +159,7 @@ documentsApi.get('/:id', async (req, res) => {
   });
 
   if (!documentFound) {
+    logger.warn(`document ${documentId} not found`);
     return res.sendStatus(404);
   }
 
@@ -287,6 +289,7 @@ documentsApi.delete('/:ids', async (req, res) => {
   });
 
   if (result.ok !== 1) {
+    logger.warn(`documents ${req.params.ids} not found`);
     return res.sendStatus(404);
   }
 

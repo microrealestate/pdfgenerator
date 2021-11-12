@@ -4,6 +4,7 @@ const ejs = require('ejs');
 const config = require('./config');
 const dataPicker = require('./datapicker');
 const pdfEngine = require('./engine/chromeheadless');
+const logger = require('winston');
 
 const settings = {
   'view engine': ejs.renderFile,
@@ -34,6 +35,15 @@ async function exit() {
 
 async function generate(documentId, params) {
   const templateFile = path.join(templates_dir, `${documentId}.ejs`);
+  if (!fs.existsSync(templateFile)) {
+    logger.error(
+      `cannot generate file for a not existing template ${templateFile}`
+    );
+    throw new Error(
+      `cannot generate file for a not existing template ${templateFile}`
+    );
+  }
+
   const data = await dataPicker(documentId, params);
   const html = await new Promise((resolve, reject) => {
     settings['view engine'](
