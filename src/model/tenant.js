@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 require('./property');
 
-const ObjectId = mongoose.Schema.Types.ObjectId;
-
 const TenantSchema = mongoose.Schema({
   // Organization
   realmId: { type: String, ref: 'Realm' },
@@ -35,12 +33,13 @@ const TenantSchema = mongoose.Schema({
   // contract
   reference: String,
   contract: String,
+  leaseId: { type: String, ref: 'Lease' },
   beginDate: String,
   endDate: String, //"30/11/2013",
   terminationDate: String,
   properties: [
     {
-      propertyId: { type: ObjectId, ref: 'Property' },
+      propertyId: { type: String, ref: 'Property' },
       entryDate: String,
       exitDate: String,
     },

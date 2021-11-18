@@ -146,6 +146,7 @@ span.error {
   position: absolute;
   top: 230mm;
   left: 10mm;
+  width: 100%;
   font-size: 9pt;
 }
 .paymentinfo .columns {

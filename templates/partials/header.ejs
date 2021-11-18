@@ -17,13 +17,13 @@
     <% for (contact in landlord.contacts) { %>
         <div class="contact">
             <% if (contact.phone1) { %>
-                Tél. : <%= contact.phone1 %><br>
+                <%= _.t('Phone: {{phoneNumber}}', { phoneNumber: contact.phone1 }) %><br>
             <% } %>
             <% if (contact.phone2) { %>
-                Tél. : <%= contact.phone2 %><br>
+                <%= _.t('Phone: {{phoneNumber}}', { phoneNumber: contact.phone2 }) %><br>
             <% } %>
             <% if (contact.email) { %>
-                E-mail : <%= contact.email %><br>
+                <%= _.t('Email: {{email}}', { email: contact.email }) %><br>
             <% } %>
         </div>
     <% } %>

@@ -1,10 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 const ejs = require('ejs');
+const logger = require('winston');
 const config = require('./config');
 const dataPicker = require('./datapicker');
 const pdfEngine = require('./engine/chromeheadless');
-const logger = require('winston');
+const templateFunctions = require('./utils/templatefunctions');
 
 const settings = {
   'view engine': ejs.renderFile,
@@ -45,19 +46,17 @@ async function generate(documentId, params) {
   }
 
   const data = await dataPicker(documentId, params);
-  const html = await new Promise((resolve, reject) => {
-    settings['view engine'](
-      templateFile,
-      data,
-      { root: templates_dir },
-      (err, html) => {
-        if (err) {
-          return reject(err);
-        }
-        resolve(html);
-      }
-    );
-  });
+  const html = await settings['view engine'](
+    templateFile,
+    {
+      ...data,
+      _: templateFunctions({
+        locale: data.landlord.locale,
+        currency: data.landlord.currency,
+      }),
+    },
+    { root: templates_dir }
+  );
   return await settings['pdf engine'].generate(documentId, html, data.fileName);
 }
 

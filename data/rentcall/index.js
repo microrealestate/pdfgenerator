@@ -16,10 +16,9 @@ module.exports = {
       );
     }
 
-    const locale = params.locale || 'fr';
-    const momentToday = moment().locale(locale);
-    const momentTerm = moment(params.term, 'YYYYMMDDHH').locale(locale);
-    data.today = momentToday.format('LL');
+    const momentToday = moment();
+    const momentTerm = moment(params.term, 'YYYYMMDDHH');
+    data.today = momentToday.format('DD/MM/YYYY');
     const dueDate = moment(momentTerm).add(10, 'days');
     const dueDay = dueDate.isoWeekday();
     if (dueDay === 6) {
@@ -35,10 +34,10 @@ module.exports = {
       } else if (day === 7) {
         today.add(1, 'days');
       }
-      data.today = today.format('LL');
+      data.today = today.format('DD/MM/YYYY');
     }
     data.tenant.rents.forEach((rent) => {
-      rent.dueDate = dueDate.locale(locale).format('LL');
+      rent.dueDate = dueDate.format('DD/MM/YYYY');
     });
 
     data.cssUrl = fileUrl(path.join(template_dir, 'css', 'print.css'));

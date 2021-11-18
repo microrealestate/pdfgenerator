@@ -12,10 +12,15 @@
 
 				<%- include('partials/placeanddate.ejs') %>
 
-				<div class="title">Avis d'échéance</div>
+				<div class="title"><%=_.t('Rent call')%></div>
 
 				<div class="limit">
-					Montant total de <strong><%= rent.total.grandTotal.toFixed(2) %> euros</strong> à nous faire parvenir avant le <strong><%= rent.dueDate %></strong>.
+					<%=_.t('The total amount of {{amount}} was expected to be paid on {{date}}.',
+					{
+						amount: _.formatNumber(rent.total.grandTotal, 'currency'),
+						date: _.formatDate(rent.dueDate, 'LL')
+					})
+				  %>
 				</div>
 
 				<div class="items">
@@ -33,7 +38,7 @@
 				<%- include('partials/footer.ejs') %>
 
 				<div class="rubber-stamp red">
-					Rappel<br>Loyer impayé
+					<%=_.t('Reminder')%><br><%=_.t('Rent not paid')%>
 				</div>
 			</div>
 		<% }); %>

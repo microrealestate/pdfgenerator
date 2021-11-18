@@ -29,12 +29,13 @@
     "url": "git+https://github.com/microrealestate/pdfgenerator.git"
   },
   "dependencies": {
-    "jsonwebtoken": "8.5.1",
     "ejs": "3.1.6",
     "express": "4.17.1",
     "express-winston": "4.1.0",
     "file-url": "3.0.0",
     "handlebars": "4.7.7",
+    "i18n": "0.13.3",
+    "jsonwebtoken": "8.5.1",
     "locale": "0.1.0",
     "moment": "2.29.1",
     "mongodb": "3.6.6",

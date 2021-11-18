@@ -1,8 +1,8 @@
 <tr>
-  <th>Description</th>
-  <th>Quantité</th>
-  <th>Prix Unitaire H.T.</th>
-  <th>Total H.T.</th>
+  <th><%= _.t('Description') %></th>
+  <th><%= _.t('Quantity') %></th>
+  <th><%= _.t('Unit price without VAT') %></th>
+  <th><%= _.t('Total without VAT') %></th>
 </tr>
 
 <% rent.preTaxAmounts.forEach(function(preTaxAmount) { %>
@@ -11,8 +11,8 @@
 	  	<%= preTaxAmount.description %>
 	  </td>
 		<td class="txtAlignRight">1</td>
-	  <td class="txtAlignRight"><%= preTaxAmount.amount.toFixed(2) %></td>
-		<td class="txtAlignRight"><%= preTaxAmount.amount.toFixed(2) %></td>
+	  <td class="txtAlignRight"><%= _.formatNumber(preTaxAmount.amount) %></td>
+		<td class="txtAlignRight"><%= _.formatNumber(preTaxAmount.amount) %></td>
 	</tr>
 <% }); %>
 
@@ -22,8 +22,8 @@
 		  	<%= charge.description %>
 		  </td>
 			<td class="txtAlignRight">1</td>
-			<td class="txtAlignRight"><%= charge.amount.toFixed(2) %></td>
-			<td class="txtAlignRight"><%= charge.amount.toFixed(2) %></td>
+			<td class="txtAlignRight"><%= _.formatNumber(charge.amount) %></td>
+			<td class="txtAlignRight"><%= _.formatNumber(charge.amount) %></td>
 		</tr>
 <% }); %>
 
@@ -33,8 +33,8 @@
 			<%= discount.description %>
 	  </td>
 	  <td class="txtAlignRight">1</td>
-	  <td class="txtAlignRight">- <%= discount.amount.toFixed(2) %></td>
-		<td class="txtAlignRight">- <%= discount.amount.toFixed(2) %></td>
+	  <td class="txtAlignRight">- <%= _.formatNumber(discount.amount) %></td>
+		<td class="txtAlignRight">- <%= _.formatNumber(discount.amount) %></td>
 	</tr>
 <% }); %>
 
@@ -44,8 +44,8 @@
 		  	<%= debt.description %>
 		  </td>
 			<td class="txtAlignRight">1</td>
-			<td class="txtAlignRight"><%= debt.amount.toFixed(2) %></td>
-			<td class="txtAlignRight"><%= debt.amount.toFixed(2) %></td>
+			<td class="txtAlignRight"><%= _.formatNumber(debt.amount) %></td>
+			<td class="txtAlignRight"><%= _.formatNumber(debt.amount) %></td>
 		</tr>
 <% }); %>
 

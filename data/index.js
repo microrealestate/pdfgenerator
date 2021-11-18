@@ -31,11 +31,18 @@ async function exit() {
 }
 
 async function getRentsData(params) {
-  const { locale = 'fr', id: tenantId, term } = params;
-  const dbTenant = await Tenant.findOne({ _id: tenantId })
-    .populate('realmId')
-    .populate('properties.propertyId');
+  const { id: tenantId, term } = params;
 
+  let dbTenant;
+  try {
+    dbTenant = await Tenant.findOne({ _id: tenantId })
+      .populate('realmId')
+      .populate('leaseId')
+      .populate('properties.propertyId');
+  } catch (error) {
+    // TODO: replace with logger.error
+    console.error(error);
+  }
   if (!dbTenant) {
     throw new Error(`tenant ${tenantId} not found`);
   }
@@ -51,9 +58,7 @@ async function getRentsData(params) {
       .filter((rent) => rent.term === Number(term))
       .map((rent) => ({
         ...rent,
-        period: moment(rent.term, 'YYYYMMDDHH')
-          .locale(locale)
-          .format('MMMM YYYY'),
+        period: rent.term,
         billingReference: `${moment(rent.term, 'YYYYMMDDHH').format('MM_YY_')}${
           dbTenant.reference
         }`,
@@ -92,12 +97,9 @@ async function getRentsData(params) {
     ],
     contract: {
       name: dbTenant.contract,
-      beginDate: moment(dbTenant.beginDate, 'DD/MM/YYYY')
-        .locale(locale)
-        .format('L'),
-      endDate: moment(dbTenant.endDate, 'DD/MM/YYYY')
-        .locale(locale)
-        .format('LL'),
+      lease: dbTenant.leaseId,
+      beginDate: dbTenant.beginDate,
+      endDate: dbTenant.endDate,
       properties: dbTenant.properties.reduce((acc, { propertyId }) => {
         acc.push(propertyId);
         return acc;
@@ -106,16 +108,11 @@ async function getRentsData(params) {
     rents,
   };
   if (dbTenant.terminationDate) {
-    tenant.contract.terminationDate = moment(
-      dbTenant.terminationDate,
-      'DD/MM/YYYY'
-    )
-      .locale(locale)
-      .format('LL');
+    tenant.contract.terminationDate = dbTenant.terminationDate;
   }
 
   return {
-    today: moment().locale(locale).format('LL'),
+    today: moment().format('DD/MM/YYYY'),
     fileName: `${dbTenant.name}-${term}`,
     tenant,
     landlord,
