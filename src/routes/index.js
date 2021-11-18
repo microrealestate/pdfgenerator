@@ -6,7 +6,7 @@ const templates = require('./templates');
 const documents = require('./documents');
 
 const routes = express.Router();
-routes.use(needAccessToken(config.ACCESS_TOKEN_SECRET));
+// routes.use(needAccessToken(config.ACCESS_TOKEN_SECRET));
 routes.use(async (req, res, next) => {
   const organizationId = req.headers.organizationid;
   if (!organizationId) {
