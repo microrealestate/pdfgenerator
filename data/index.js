@@ -48,9 +48,14 @@ async function getRentsData(params) {
   }
 
   const landlord = dbTenant.realmId;
-  landlord.name = landlord.isCompany
-    ? landlord.companyInfo.name
-    : landlord.contacts[0].name;
+  landlord.name =
+    (landlord.isCompany
+      ? landlord.companyInfo?.name
+      : landlord.contacts?.[0]?.name) || '';
+  landlord.hasCompanyInfo = !!landlord.companyInfo;
+  landlord.hasBankInfo = !!landlord.bankInfo;
+  landlord.hasAddress = !!landlord.addresses?.length;
+  landlord.hasContact = !!landlord.contacts?.length;
 
   let rents = [];
   if (dbTenant.rents.length) {

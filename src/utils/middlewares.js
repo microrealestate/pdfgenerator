@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const logger = require('winston');
+const Realm = require('../model/realm');
 
 const needAccessToken = (accessTokenSecret) => {
   return (req, res, next) => {
@@ -27,6 +28,22 @@ const needAccessToken = (accessTokenSecret) => {
   };
 };
 
+const checkOrganization = () => {
+  return async (req, res, next) => {
+    const organizationId = req.headers.organizationid;
+    if (!organizationId) {
+      return res.sendStatus(404);
+    }
+
+    req.realm = (await Realm.findOne({ _id: organizationId }))?.toObject();
+    if (req.realm) {
+      req.realm._id = req.realm._id?.toString();
+    }
+    next();
+  };
+};
+
 module.exports = {
   needAccessToken,
+  checkOrganization,
 };
