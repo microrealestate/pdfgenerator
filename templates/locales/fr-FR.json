@@ -32,5 +32,6 @@
   "Invoice": "Quittance",
   "Amount paid": "Montant payé",
   "Balance remaining payable": "Montant restant à payer",
-  "Credit balance": "Solde en votre faveur"
+  "Credit balance": "Solde en votre faveur",
+  "VAT {{vatPercent}}": "TVA {{vatPercent}}"
 }

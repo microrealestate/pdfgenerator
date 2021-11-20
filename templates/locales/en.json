@@ -32,5 +32,6 @@
   "Invoice": "Invoice",
   "Amount paid": "Amount paid",
   "Balance remaining payable": "Balance remaining payable",
-  "Credit balance": "Credit balance"
+  "Credit balance": "Credit balance",
+  "VAT {{vatPercent}}": "VAT {{vatPercent}}"
 }
