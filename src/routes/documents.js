@@ -128,8 +128,6 @@ documentsApi.get('/:document/:id/:term', async (req, res) => {
     const pdfFile = await pdf.generate(req.params.document, req.params);
     res.download(pdfFile);
   } catch (error) {
-    // TODO: remove console.log
-    console.log(error);
     logger.error(error);
     res.sendStatus(404);
   }
