@@ -6,6 +6,18 @@ const config = require('../../src/config');
 
 const template_dir = config.TEMPLATES_DIRECTORY;
 
+const _avoidWeekend = (aMoment) => {
+  const day = aMoment.isoWeekday();
+  if (day === 6) {
+    // if saturday shift the due date to friday
+    aMoment.subtract(1, 'days');
+  } else if (day === 7) {
+    // if sunday shift the due date to monday
+    aMoment.add(1, 'days');
+  }
+  return aMoment;
+};
+
 module.exports = {
   async get(params) {
     const data = await db.getRentsData(params);
@@ -18,23 +30,24 @@ module.exports = {
 
     const momentToday = moment();
     const momentTerm = moment(params.term, 'YYYYMMDDHH');
-    data.today = momentToday.format('DD/MM/YYYY');
-    const dueDate = moment(momentTerm).add(10, 'days');
-    const dueDay = dueDate.isoWeekday();
-    if (dueDay === 6) {
-      dueDate.subtract(1, 'days');
-    } else if (dueDay === 7) {
-      dueDate.add(1, 'days');
+    const beginDate = moment(data.tenant.contract.beginDate, 'DD/MM/YYYY');
+
+    let dueDate = moment(momentTerm);
+    if (data.tenant.contract.lease.timeRange === 'years') {
+      dueDate.add(1, 'months');
+    } else if (data.tenant.contract.lease.timeRange === 'months') {
+      dueDate.add(10, 'days');
+    } else if (data.tenant.contract.lease.timeRange === 'weeks') {
+      dueDate.add(2, 'days');
     }
+    _avoidWeekend(dueDate);
+    if (dueDate.isBefore(beginDate)) {
+      dueDate = moment(beginDate);
+    }
+
+    data.today = momentToday.format('DD/MM/YYYY');
     if (dueDate.isSameOrBefore(momentToday)) {
-      const today = moment(momentTerm);
-      const day = today.isoWeekday();
-      if (day === 6) {
-        today.subtract(1, 'days');
-      } else if (day === 7) {
-        today.add(1, 'days');
-      }
-      data.today = today.format('DD/MM/YYYY');
+      data.today = _avoidWeekend(moment(momentTerm)).format('DD/MM/YYYY');
     }
     data.tenant.rents.forEach((rent) => {
       rent.dueDate = dueDate.format('DD/MM/YYYY');
